@@ -22,7 +22,8 @@ function love.load()
 		}
 		for j = 1, 3 do
 			if i > j then
-				snake[i].y = Y[point[i].b + j]
+				point[i].b = point[i].b + 1
+				snake[i].y = Y[point[i].b]
 			end
 		end
 	end
@@ -54,7 +55,6 @@ function love.update(dt)
 	end
 
 	if love.keyboard.isDown("up") then
-		grow()
 		inheritPos()
 		point[1].b = point[1].b - 1
 		if point[1].b < 1 then
@@ -66,7 +66,6 @@ function love.update(dt)
 	end
 
     if love.keyboard.isDown("down") then
-		grow()
 		inheritPos()
 		point[1].b = point[1].b + 1
 		if point[1].b > 8 then
@@ -78,7 +77,6 @@ function love.update(dt)
 	end
 
     if love.keyboard.isDown("left") then
-		grow()
 		inheritPos()
 		point[1].a = point[1].a - 1
 		if point[1].a < 1 then
@@ -90,7 +88,6 @@ function love.update(dt)
 	end
 
     if love.keyboard.isDown("right") then
-		grow()
 		inheritPos()
 		point[1].a = point[1].a + 1
 		if point[1].a > 8 then
@@ -108,6 +105,7 @@ function love.update(dt)
 		apple.x = X[c]
 		apple.y = Y[d]
 		f = f + 1
+		grow()
 	end
 
 	function grow()
@@ -115,12 +113,14 @@ function love.update(dt)
 			a = point[f - 1].a,
 			b = point[f - 1].b
 		}
+		table.insert(point, point[f])
 		snake[f] = {
+			x = X[point[f].a],
+			y = Y[point[f].b],
 			ox = 30,
 			oy = 30,
 			image = snakeImg
 		}
-		table.insert(point, point[f])
 		table.insert(snake, snake[f])
 	end
 
@@ -131,18 +131,9 @@ end
 
 function love.draw()
 	love.graphics.print(f, 300, 300)
-	love.graphics.print(point[1].a, 400, 410)
-	love.graphics.print(point[1].b, 400, 420)
-	love.graphics.print(point[4].a, 400, 430)
-	love.graphics.print(point[4].b, 400, 440)
 	love.graphics.setBackgroundColor(55, 70, 150)
-	for i = e, f do 
+	for i = 1, f do 
 		love.graphics.draw(snake[i].image, snake[i].x, snake[i].y, r, sx, sy, snake[i].ox, snake[i].oy)
-	end
-	if f > 4 then
-		for q = 4, f do
-			love.graphics.draw(snake[q].image, snake[q].x, snake[q].y, r, sx, sy, snake[q].ox, snake[q].oy)
-		end
 	end
 	love.graphics.draw(apple.image, apple.x, apple.y, r, sx, sy, apple.ox, apple.oy)
 end
