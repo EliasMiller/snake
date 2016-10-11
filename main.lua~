@@ -1,0 +1,11 @@
+function love.load()
+	player.image = love.graphics.newImage("geghon.png")
+	x, y = 1, 1
+end
+function love.update(dt)
+
+end
+function love.draw()
+	love.graphics.setBackgroundColor(255,255,255)
+	love.graphics.draw(player.image, x, y)
+end
