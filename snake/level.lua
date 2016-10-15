@@ -6,6 +6,7 @@ local point = { }
 
 function love.load()
 
+	sound = love.audio.newSource("src/sound/positive.mp3")
 	snakeImg = love.graphics.newImage("src/img/snake.png")
 
 	for i = 1, 4 do
@@ -99,6 +100,7 @@ function love.update(dt)
     end
 
 	if snake[1].y == apple.y and snake[1].x == apple.x then
+		love.audio.play(sound)
 		love.timer.sleep(0.1)
 		c = love.math.random(1, 8)
 		d = love.math.random(1, 8)
@@ -130,7 +132,6 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.print(f, 300, 300)
 	love.graphics.setBackgroundColor(55, 70, 150)
 	for i = 1, f do 
 		love.graphics.draw(snake[i].image, snake[i].x, snake[i].y, r, sx, sy, snake[i].ox, snake[i].oy)
